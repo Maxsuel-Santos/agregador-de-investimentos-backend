@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import github.maxsuel.agregadordeinvestimentos.dto.CreateUserDto;
+import github.maxsuel.agregadordeinvestimentos.dto.UpdateUserDto;
 import github.maxsuel.agregadordeinvestimentos.entity.User;
 import github.maxsuel.agregadordeinvestimentos.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,14 @@ public class UserController {
     public ResponseEntity<List<User>> listAllUsers() {
         return ResponseEntity.ok(userService.listAllUsers());
     }
+
+    @PutMapping(path = "/{userId}")
+    public ResponseEntity<Void> updateUserById(@PathVariable("userId") String userId,
+                                               @RequestBody UpdateUserDto updateUserDto) {
+        userService.updateUserById(userId, updateUserDto);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @DeleteMapping(path = "/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") String userId) {
