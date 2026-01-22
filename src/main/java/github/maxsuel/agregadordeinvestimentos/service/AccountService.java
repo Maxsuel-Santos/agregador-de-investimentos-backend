@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,24 +51,30 @@ public class AccountService {
 
     public List<AccountStockResponseDto> listAllStocks(String accountId) {
         var account = accountRepository.findById(UUID.fromString(accountId))
-                .orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND)));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         return account.getAccountStocks()
                 .stream()
-                .map(
-                        as -> new AccountStockResponseDto(
-                                as.getStock().getStockId(),
-                                as.getQuantity(),
-                                getTotal(as.getQuantity(), as.getStock().getStockId()))
-                )
+                .map(as -> {
+                    var response = brapiClient.getQuote(TOKEN, as.getStock().getStockId());
+                    var stockInfo = response.results().getFirst();
+
+                    double price = stockInfo.regularMarketPrice();
+                    double totalRaw = as.getQuantity() * price;
+
+                    double totalRounded = BigDecimal.valueOf(totalRaw)
+                            .setScale(2, RoundingMode.HALF_UP)
+                            .doubleValue();
+
+                    return new AccountStockResponseDto(
+                            as.getStock().getStockId(),
+                            stockInfo.shortName(),
+                            as.getQuantity(),
+                            price,
+                            totalRounded,
+                            stockInfo.logourl()
+                    );
+                })
                 .toList();
-    }
-
-    private double getTotal(Integer quantity, String stockId) {
-        var response = brapiClient.getQuote(TOKEN, stockId);
-
-        var price = response.results().getFirst().regularMarketPrice();
-
-        return quantity * price;
     }
 }
