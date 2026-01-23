@@ -21,10 +21,10 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @Operation(summary = "Associates an action with an account.", description = "Links a financial asset and the quantity purchased to a specific account.")
+    @Operation(summary = "Associates an stock with an account.", description = "Links a financial asset and the quantity purchased to a specific account.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Action associated with success."),
-            @ApiResponse(responseCode = "404", description = "Account or Action not found.")
+            @ApiResponse(responseCode = "200", description = "Stock associated with success."),
+            @ApiResponse(responseCode = "404", description = "Account or Stock not found.")
     })
     @PostMapping(path = "/{accountId}/stocks")
     public ResponseEntity<Void> associateStock(@PathVariable("accountId") String accountId,
