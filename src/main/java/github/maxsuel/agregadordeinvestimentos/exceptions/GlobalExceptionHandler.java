@@ -1,6 +1,6 @@
 package github.maxsuel.agregadordeinvestimentos.exceptions;
 
-import github.maxsuel.agregadordeinvestimentos.exceptions.dto.ErrorResponse;
+import github.maxsuel.agregadordeinvestimentos.exceptions.dto.ErrorResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         log.warn("Validation error: {}", errors);
 
-        var errorResponse = new ErrorResponse(
+        var errorResponse = new ErrorResponseDto(
                 status.value(),
                 "Validation error in the fields",
                 Instant.now(),
@@ -41,10 +41,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+    public ResponseEntity<ErrorResponseDto> handleIllegalArgument(IllegalArgumentException ex) {
         log.error("Business logic error: {}", ex.getMessage());
 
-        var errorResponse = new ErrorResponse(
+        var errorResponse = new ErrorResponseDto(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),
                 Instant.now(),
@@ -54,10 +54,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex) {
+    public ResponseEntity<ErrorResponseDto> handleAccessDenied(AccessDeniedException ex) {
         log.error("Security error - Access Denied: {}", ex.getMessage());
 
-        var errorResponse = new ErrorResponse(
+        var errorResponse = new ErrorResponseDto(
                 HttpStatus.FORBIDDEN.value(),
                 "Access denied: You do not have permission to perform this operation.",
                 Instant.now(),
@@ -67,10 +67,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+    public ResponseEntity<ErrorResponseDto> handleGeneralException(Exception ex) {
         log.error("Unexpected critical error: ", ex);
 
-        var errorResponse = new ErrorResponse(
+        var errorResponse = new ErrorResponseDto(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "An unexpected internal error occurred on the server.",
                 Instant.now(),
