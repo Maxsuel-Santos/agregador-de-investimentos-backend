@@ -12,6 +12,7 @@ import github.maxsuel.agregadordeinvestimentos.entity.BillingAddress;
 import github.maxsuel.agregadordeinvestimentos.entity.enums.Role;
 import github.maxsuel.agregadordeinvestimentos.repository.AccountRepository;
 import github.maxsuel.agregadordeinvestimentos.repository.BillingAddressRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UUID createUser(CreateUserDto createUserDto) {
+    public UUID createUser(@NonNull CreateUserDto createUserDto) {
         var entity = new User(
             createUserDto.username(), 
             createUserDto.email(),
@@ -59,7 +60,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserById(String userId, UpdateUserDto updateUserDto) {
+    public void updateUserById(String userId, @NonNull UpdateUserDto updateUserDto) {
         var userUuid = UUID.fromString(userId);
 
         var user = userRepository.findById(userUuid)
@@ -77,6 +78,7 @@ public class UserService {
         log.info("User updated with ID: {}", userId);
     }
 
+    @Transactional
     public void deleteUser(String userId) {
         var userUuid = UUID.fromString(userId);
 
@@ -91,7 +93,7 @@ public class UserService {
     }
 
     @Transactional
-    public void createAccount(String userId, CreateAccountDto createAccountDto) {
+    public void createAccount(String userId, @NonNull CreateAccountDto createAccountDto) {
         var user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
 
@@ -121,7 +123,5 @@ public class UserService {
                 .stream()
                 .map(ac -> new AccountResponseDto(ac.getAccountId().toString(), ac.getDescription()))
                 .toList();
-
-
     }
 }

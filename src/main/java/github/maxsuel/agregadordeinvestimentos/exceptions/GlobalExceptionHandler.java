@@ -92,4 +92,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(org.springframework.security.authentication.BadCredentialsException.class)
+    public ResponseEntity<ErrorResponseDto> handleBadCredentials(org.springframework.security.authentication.BadCredentialsException ex) {
+        var errorResponse = new ErrorResponseDto(
+                HttpStatus.UNAUTHORIZED.value(),
+                "Invalid username or password.",
+                Instant.now(),
+                null
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
 }

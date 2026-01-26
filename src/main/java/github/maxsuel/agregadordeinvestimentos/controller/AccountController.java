@@ -1,5 +1,6 @@
 package github.maxsuel.agregadordeinvestimentos.controller;
 
+import github.maxsuel.agregadordeinvestimentos.dto.AccountBalanceDto;
 import github.maxsuel.agregadordeinvestimentos.dto.AccountStockResponseDto;
 import github.maxsuel.agregadordeinvestimentos.dto.AssociateAccountStockDto;
 import github.maxsuel.agregadordeinvestimentos.service.AccountService;
@@ -42,6 +43,12 @@ public class AccountController {
         var stocks = accountService.listAllStocks(accountId);
 
         return ResponseEntity.ok(stocks);
+    }
+
+    @Operation(summary = "Get account total balance", description = "Calculates the sum of all stocks in the account based on real-time Brapi prices.")
+    @GetMapping("/{accountId}/balance")
+    public ResponseEntity<AccountBalanceDto> getBalance(@PathVariable String accountId) {
+        return ResponseEntity.ok(accountService.getAccountBalance(accountId));
     }
 
 }
