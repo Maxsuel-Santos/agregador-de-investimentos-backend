@@ -60,6 +60,7 @@ public class UserService {
         log.info("User updated with ID: {}. Password re-hashed.", userId);
     }
 
+    @Transactional
     public void deleteUser(String userId) {
         var userUuid = UUID.fromString(userId);
 

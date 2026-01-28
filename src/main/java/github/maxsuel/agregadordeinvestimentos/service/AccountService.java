@@ -8,6 +8,7 @@ import github.maxsuel.agregadordeinvestimentos.entity.AccountStockId;
 import github.maxsuel.agregadordeinvestimentos.repository.AccountRepository;
 import github.maxsuel.agregadordeinvestimentos.repository.AccountStockRepository;
 import github.maxsuel.agregadordeinvestimentos.repository.StockRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ public class AccountService {
     private final AccountStockRepository accountStockRepository;
     private final BrapiClient brapiClient;
 
+    @Transactional
     public void associateStock(String accountId, AssociateAccountStockDto dto) {
         var account = accountRepository.findById(UUID.fromString(accountId))
                 .orElseThrow(() -> new ResponseStatusException((HttpStatus.NOT_FOUND)));
