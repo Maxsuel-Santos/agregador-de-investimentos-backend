@@ -19,7 +19,7 @@ A segurança dos dados financeiros e das integrações de nossos usuários é no
 **Por favor, não abra uma "Issue" pública para reportar vulnerabilidades de segurança.** Para garantir a proteção dos usuários, siga um destes canais:
 
 1.  **GitHub Security Advisory:** Vá até a aba "Security" deste repositório e selecione "Report a vulnerability".
-2.  **E-mail:** Envie um relatório detalhado para `security@finncker.com`.
+2.  **E-mail:** Envie um relatório detalhado para `maxsuel.ap.l.santos@gmail.com`.
 
 **No seu relatório, inclua:**
 * Uma descrição clara da vulnerabilidade e o impacto potencial.
