@@ -108,10 +108,10 @@ git push origin feat/login-screen
 
 Utilizamos **PascalCase** (Inicia com maiúscula).
 
-| Tipo | Padrão | Exemplo Correto ✅ |
-| :--- | :--- | :--- |
-| **Entities (FXML)** | `[Name]User.java` | `User.fxml` |
-| **Controllers** | `[Name]Controller.java` | `UserController.java` |
+| Tipo | Padrão | Exemplo Correto ✅               |
+| :--- | :--- |:--------------------------------|
+| **Entities (FXML)** | `[Name]User.java` | `User.java`                        |
+| **Controllers** | `[Name]Controller.java` | `UserController.java`           |
 | **Classes de Modelo** | Substantivo Singular | `Customer.java`, `Product.java` |
 
 ### B. Variáveis e Atributos
